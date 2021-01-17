@@ -1,59 +1,45 @@
-import logo from './logo.svg';
-import { useState } from 'react';
-import Route from "./components/Route";
-import Navbar from "./components/Navbar";
-import Home from "./views/Home/Home";
-import FirstApi from "./views/FirstApi/FirstApi";
-import SecondApi from "./views/SecondApi/SecondApi";
-import BothApi from "./views/BothApi/BothApi";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.scss';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import Navbar from './Navbar';
+import Swapi from './components/swapi/Swapi';
+import Meals from './components/meals/Meals';
 
 function App() {
-	const [searchedValue, setSearchedValue] = useState('');
-	const [searchedValueSecond, setSearchedValueSecond] = useState('');
-	const [colorValue, setColorValue] = useState('');
 
-	const [result, setResult] = useState('');
-	const [resultSecond, setResultSecond] = useState('');
+    const Home = () => (
+        <div>
+            <h2>API 1</h2>
+            <span>
+                In this API, select the planet of Star Wars Galaxy whose characteristics you would like to know
+            </span>
+            <br/>
+            <br/>
+            <h2>API 2</h2>
+            <span>
+                This API lists a set of photos of dishes from around the world!
+            </span>
 
-	const handleSearchedValue = (value) => {
-		setSearchedValue(value);
-	}
 
-	const handleSearchedValueSecond = (value) => {
-		setSearchedValueSecond(value);
-	}
+        </div>
+    )
 
-	const handleOnColorChanged = (color) => {
-		setColorValue(color);
-	}
+  return (
+      <Router>
+    <div className="App">
+        <Navbar />
+        <div className="container">
+            <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/swapi" component={Swapi} />
+                <Route path="/meals" exact component={Meals} />
+            </Switch>
+        </div>
 
-	const handleOnResult = (result) => {
-		setResult(result);
-	}
+    </div>
+      </Router>
+  );
 
-	const handleOnResultSecond = (result) => {
-		setResultSecond(result);
-	}
 
- 	 return (
-		<div className="ui container">
-			<Navbar />
-			<Route path="/">
-				<Home onResult={handleOnResult} onResultSecond={handleOnResultSecond} onSearch={handleSearchedValue} onSearchSecond={handleSearchedValueSecond} onColorChanged={handleOnColorChanged}/>
-			</Route>
-			<Route path="/firstapi">
-				<FirstApi value={searchedValue} color={colorValue} onResult={handleOnResult} />
-			</Route>
-			<Route path="/secondapi">
-				<SecondApi value={searchedValueSecond} color={colorValue} onResultSecond={handleOnResultSecond} />
-			</Route>
-			<Route path="/bothapi">
-				<BothApi dataFirst={result} dataSecond={resultSecond} color={colorValue} />
-			</Route>
-		</div>
-  	);
 }
 
 export default App;
